@@ -2,6 +2,7 @@ import React from "react";
 import layout from "../layout";
 import { Separator } from "react-resizable-panels";
 import DesktopSidebar from "@/components/Sidebar";
+import BreadcrumHeader from "@/components/BreadcrumHeader";
 
 type Props = {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ const Layout = ({ children }: Props) => {
       <DesktopSidebar />
       <div className="flex flex-col flex-1 min-h-screen">
         <header className="flex items-center justify-between px-6 py-4 h-[50px] container">
-          Workflow AI
+          <BreadcrumHeader />
         </header>
         <Separator />
         <div className="overflow-auto">
