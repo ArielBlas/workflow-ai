@@ -4,6 +4,7 @@ import { Separator } from "react-resizable-panels";
 import DesktopSidebar from "@/components/Sidebar";
 import BreadcrumHeader from "@/components/BreadcrumHeader";
 import { ModeToggle } from "@/components/ThemeModeToggle";
+import { SignedIn, UserButton } from "@clerk/nextjs";
 
 type Props = {
   children: React.ReactNode;
@@ -18,6 +19,9 @@ const Layout = ({ children }: Props) => {
           <BreadcrumHeader />
           <div className="gap-1 flex items-center">
             <ModeToggle />
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
           </div>
         </header>
         <Separator />
