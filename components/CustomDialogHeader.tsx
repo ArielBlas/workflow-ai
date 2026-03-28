@@ -2,6 +2,7 @@
 import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { cn } from "@/lib/utils";
 import { Icon, LucideIcon } from "lucide-react";
+import { Separator } from "./ui/separator";
 
 type Props = {
   title?: string;
@@ -41,6 +42,8 @@ function CustomDialogHeader(props: Props) {
           )}
         </div>
       </DialogTitle>
+
+      <Separator />
     </DialogHeader>
   );
 }
