@@ -7,7 +7,10 @@ import { Layers2Icon } from "lucide-react";
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { useForm } from "react-hook-form";
 import z from "zod";
-import { createWorkflowSchema } from "@/schema/workflow";
+import {
+  createWorkflowSchema,
+  createWorkflowSchemaType,
+} from "@/schema/workflow";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,
@@ -28,7 +31,7 @@ type Props = {
 const CreateWorkflowDialog = ({ triggerText }: Props) => {
   const [open, setOpen] = useState(false);
 
-  const form = useForm<z.infer<typeof createWorkflowSchema>>({
+  const form = useForm<createWorkflowSchemaType>({
     resolver: zodResolver(createWorkflowSchema),
     defaultValues: {},
   });
