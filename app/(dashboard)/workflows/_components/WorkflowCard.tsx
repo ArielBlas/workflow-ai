@@ -1,12 +1,26 @@
 "use client";
 
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { WorkflowStatus } from "@/types/workflow";
 import { Workflow } from "@prisma/client";
-import { FileTextIcon, PlayIcon, ShuffleIcon } from "lucide-react";
+import {
+  FileTextIcon,
+  MoreVerticalIcon,
+  PlayIcon,
+  ShuffleIcon,
+} from "lucide-react";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import TooltipWrapper from "@/components/TooltipWrapper";
 
 const statusColors = {
   [WorkflowStatus.DRAFT]: "bg-yellow-400 text-yellow-600",
@@ -73,5 +87,3 @@ const WorkflowCard = ({ workflow }: Props) => {
     </Card>
   );
 };
-
-export default WorkflowCard;
