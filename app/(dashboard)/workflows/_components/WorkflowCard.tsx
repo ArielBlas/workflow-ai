@@ -10,6 +10,7 @@ import {
   MoreVerticalIcon,
   PlayIcon,
   ShuffleIcon,
+  TrashIcon,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -82,8 +83,35 @@ const WorkflowCard = ({ workflow }: Props) => {
             <ShuffleIcon size={16} />
             Edit
           </Link>
+          <WorkflowActions />
         </div>
       </CardContent>
     </Card>
   );
 };
+
+function WorkflowActions() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="sm">
+          <TooltipWrapper content="More actions">
+            <div className="flex items-center justify-center w-full h-full">
+              <MoreVerticalIcon size={18} />
+            </div>
+          </TooltipWrapper>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+      </DropdownMenuContent>
+      <DropdownMenuSeparator />
+      <DropdownMenuItem className="text-destructive flex items-center gap-2">
+        <TrashIcon size={16} />
+        Delete
+      </DropdownMenuItem>
+    </DropdownMenu>
+  );
+}
+
+export default WorkflowCard;
