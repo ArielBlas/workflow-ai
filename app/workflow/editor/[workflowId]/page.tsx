@@ -2,6 +2,7 @@ import React from "react";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/prisma";
 import { waitFor } from "@/lib/helper/waitFor";
+import Editor from "../../_components/Editor";
 
 type Props = {
   params: {
@@ -23,7 +24,7 @@ const page = async ({ params }: Props) => {
 
   if (!workflow) return <div>Workflow not found</div>;
 
-  return <pre>{JSON.stringify(workflow, null, 4)}</pre>;
+  return <Editor workflow={workflow} />;
 };
 
 export default page;
