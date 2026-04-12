@@ -13,13 +13,17 @@ import React from "react";
 
 // @ts-ignore
 import "@xyflow/react/dist/style.css";
+import { CreateFlowNode } from "@/lib/workflow/createFlowNode";
+import { TaskType } from "@/types/task";
 
 type Props = {
   workflow: Workflow;
 };
 
 const FlowEditor = ({ workflow }: Props) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [nodes, setNodes, onNodesChange] = useNodesState([
+    CreateFlowNode(TaskType.LAUNCH_BROWSER),
+  ]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   return (
