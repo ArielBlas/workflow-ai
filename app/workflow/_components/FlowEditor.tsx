@@ -15,9 +15,14 @@ import React from "react";
 import "@xyflow/react/dist/style.css";
 import { CreateFlowNode } from "@/lib/workflow/createFlowNode";
 import { TaskType } from "@/types/task";
+import NodeComponent from "./nodes/NodeComponent";
 
 type Props = {
   workflow: Workflow;
+};
+
+const nodeTypes = {
+  FlowScrapeNode: NodeComponent,
 };
 
 const FlowEditor = ({ workflow }: Props) => {
@@ -33,6 +38,7 @@ const FlowEditor = ({ workflow }: Props) => {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        nodeTypes={nodeTypes}
       >
         <Controls position="top-left" />
         <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
