@@ -8,8 +8,9 @@ import {
   Controls,
   Background,
   BackgroundVariant,
+  useReactFlow,
 } from "@xyflow/react";
-import React from "react";
+import React, { useEffect } from "react";
 
 // @ts-ignore
 import "@xyflow/react/dist/style.css";
@@ -35,6 +36,21 @@ const FlowEditor = ({ workflow }: Props) => {
     CreateFlowNode(TaskType.LAUNCH_BROWSER),
   ]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const { setViewport } = useReactFlow();
+
+  useEffect(() => {
+    try {
+      const flow = JSON.parse(workflow.definition);
+      if (!flow) return;
+      setNodes(flow.nodes || []);
+      setEdges(flow.edges || []);
+      if (!flow.viewport) return;
+      const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+      setViewport({ x, y, zoom });
+    } catch (e) {
+      console.error("Failed to parse workflow flow", e);
+    }
+  }, [workflow.definition, setViewport, setNodes, setEdges]);
 
   return (
     <main className="h-full w-full">
