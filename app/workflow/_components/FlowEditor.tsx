@@ -80,7 +80,7 @@ const FlowEditor = ({ workflow }: Props) => {
       const newNode = CreateFlowNode(taskType as TaskType, position);
       setNodes((nds) => nds.concat(newNode));
     },
-    [setNodes],
+    [screenToFlowPosition, setNodes],
   );
 
   const onConnect = useCallback(
@@ -97,7 +97,7 @@ const FlowEditor = ({ workflow }: Props) => {
         inputs: nodeInputs,
       });
     },
-    [setEdges, updateNodeData],
+    [setEdges, updateNodeData, nodes],
   );
 
   return (
