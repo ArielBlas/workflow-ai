@@ -11,7 +11,7 @@ type Props = {
   workflowId: string;
 };
 
-function ExecuteBtn({ workflowId }: Props) {
+function    ({ workflowId }: Props) {
   const generate = useExecutionPlan();
   const { toObject } = useReactFlow();
 
