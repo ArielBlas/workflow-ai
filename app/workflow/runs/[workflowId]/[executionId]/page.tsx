@@ -1,4 +1,7 @@
 import Topbar from "@/app/workflow/_components/topbar/Topbar";
+import { auth } from "@clerk/nextjs/server";
+import { Loader2Icon } from "lucide-react";
+import { Suspense } from "react";
 
 export default function ExecutionViewerPage({
   params,
@@ -16,6 +19,25 @@ export default function ExecutionViewerPage({
         subtitle={`Run ID: ${params.executionId}`}
         hideButtons
       />
+      <section className="flex h-ful overflow-auto">
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center">
+              <Loader2Icon className="h-10 w-10 animate-spin stroke-primary" />
+            </div>
+          }
+        >
+          <ExecutionViewerWrapper executionId={params.executionId} />
+        </Suspense>
+      </section>
     </div>
   );
+}
+
+async function ExecutionViewerWrapper({
+  executionId,
+}: {
+  executionId: string;
+}) {
+  return <div>Wrapper</div>;
 }
