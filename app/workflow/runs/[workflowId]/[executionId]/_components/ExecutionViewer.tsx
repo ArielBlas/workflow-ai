@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 
@@ -58,6 +60,27 @@ const ExecutionViewer = ({ initialData }: Props) => {
           />
         </div>
         <Separator />
+        <div className="flex justify-center items-center py-2 px-4">
+          <div className="text-muted-foreground flex items-center gap-2">
+            <WorkflowIcon size={20} className="stroke-muted-foreground/80" />
+            <span className="font-semibold">Phases</span>
+          </div>
+        </div>
+        <Separator />
+        <div className="overflow-auto h-full px-2 py-4">
+          {query.data?.phases.map((phase, index) => (
+            <Button
+              key={phase.id}
+              className="w-full justify-between"
+              variant="ghost"
+            >
+              <div className="flex items-center gap-2">
+                <Badge variant="outline">{index + 1}</Badge>
+                <p className="font-semibold">{phase.name}</p>
+              </div>
+            </Button>
+          ))}
+        </div>
       </aside>
     </div>
   );
