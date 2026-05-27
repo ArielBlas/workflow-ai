@@ -14,6 +14,7 @@ import { formatDistanceToNow } from "date-fns";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { DatesToDurationString } from "@/lib/helper/dates";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 
@@ -29,6 +30,11 @@ const ExecutionViewer = ({ initialData }: Props) => {
     refetchInterval: (q) =>
       q.state.data?.status === WorkflowExecutionStatus.RUNNING ? 1000 : false,
   });
+
+  const duration = DatesToDurationString(
+    query.data?.completedAt,
+    query.data?.startedAt,
+  );
 
   return (
     <div className="flex w-full h-full">
