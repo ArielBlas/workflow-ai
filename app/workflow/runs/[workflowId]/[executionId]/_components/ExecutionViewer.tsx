@@ -7,6 +7,7 @@ import {
   CircleDashedIcon,
   ClockIcon,
   CoinsIcon,
+  Loader2Icon,
   LucideIcon,
   WorkflowIcon,
 } from "lucide-react";
@@ -15,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DatesToDurationString } from "@/lib/helper/dates";
+import { GetPhasesTotatCost } from "@/lib/helper/phases";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 
@@ -35,6 +37,8 @@ const ExecutionViewer = ({ initialData }: Props) => {
     query.data?.completedAt,
     query.data?.startedAt,
   );
+
+  const creditsConsumed = GetPhasesTotatCost(query.data?.phases || []);
 
   return (
     <div className="flex w-full h-full">
@@ -58,7 +62,17 @@ const ExecutionViewer = ({ initialData }: Props) => {
               </span>
             }
           />
-          <ExecutionLabel icon={ClockIcon} label="Duration" value="TODO" />
+          <ExecutionLabel
+            icon={ClockIcon}
+            label="Duration"
+            value={
+              duration ? (
+                duration
+              ) : (
+                <Loader2Icon className="animate-spin" size={20} />
+              )
+            }
+          />
           <ExecutionLabel
             icon={CoinsIcon}
             label="Credits consumed"
