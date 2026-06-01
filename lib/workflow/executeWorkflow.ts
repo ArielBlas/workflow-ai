@@ -20,6 +20,9 @@ export async function ExecuteWorkflow(executionId: string) {
 
   const environment = { phases: {} };
 
+  await initializeWorkflowExecution(executionId, execution.workflowId);
+  await initializePhaseStatuses(execution);
+
   revalidatePath("/workflows/runs");
 }
 
@@ -34,6 +37,30 @@ async function initializeWorkflowExecution(
     data: {
       startedAt: new Date(),
       status: WorkflowExecutionStatus.RUNNING,
+    },
+  });
+
+  await prisma.workflow.update({
+    where: {
+      id: workflowId,
+    },
+    data: {
+      lastRunAt: new Date(),
+      lastRunStatus: WorkflowExecutionStatus.RUNNING,
+      lastRunId: executionId,
+    },
+  });
+}
+
+async function initializePhaseStatuses(execution: any) {
+  await prisma.executionPhase.updateMany({
+    where: {
+      id: {
+        in: execution.phases.map((phase: any) => phase.id),
+      },
+    },
+    data: {
+      status: WorkflowExecutionStatus.PENDING,
     },
   });
 }
