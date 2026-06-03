@@ -2,6 +2,9 @@ import "server-only";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { WorkflowExecutionStatus } from "@/types/workflow";
+import { ExecutionPhase } from "@prisma/client";
+import { AppNode } from "@/types/appNode";
+import { TaskRegistry } from "./task/registry";
 
 export async function ExecuteWorkflow(executionId: string) {
   const execution = await prisma.workflowExecution.findUnique({
@@ -25,6 +28,14 @@ export async function ExecuteWorkflow(executionId: string) {
 
   let creditsConsumed = 0;
   let executionFailed = false;
+
+  for (const phase of execution.phases) {
+    const phaseExecution = await executeWorkflowPhase(phase);
+    if (!phaseExecution.success) {
+      executionFailed = true;
+      break;
+    }
+  }
 
   await finalizeWorkflowExecution(
     executionId,
@@ -95,4 +106,36 @@ async function finalizeWorkflowExecution(
       creditsConsumed,
     },
   });
+
+  await prisma.workflow
+    .update({
+      where: {
+        id: workflowId,
+        lastRunId: executionId,
+      },
+      data: {
+        lastRunStatus: finalStatus,
+      },
+    })
+    .catch((err) => {});
+}
+
+async function executeWorkflowPhase(phase: ExecutionPhase) {
+  const startedAt = new Date();
+  const node = JSON.parse(phase.node) as AppNode;
+
+  await prisma.executionPhase.update({
+    where: {
+      id: phase.id,
+    },
+    data: {
+      status: WorkflowExecutionStatus.RUNNING,
+      startedAt,
+    },
+  });
+
+  const creditsRequired = TaskRegistry[node.data.type].credits;
+  console.log(
+    `Executing phase ${phase.name} with ${creditsRequired} credits required`,
+  );
 }
