@@ -1,7 +1,10 @@
 import "server-only";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { WorkflowExecutionStatus } from "@/types/workflow";
+import {
+  ExecutionPhaseStatus,
+  WorkflowExecutionStatus,
+} from "@/types/workflow";
 import { ExecutionPhase } from "@prisma/client";
 import { AppNode } from "@/types/appNode";
 import { TaskRegistry } from "./task/registry";
@@ -138,4 +141,26 @@ async function executeWorkflowPhase(phase: ExecutionPhase) {
   console.log(
     `Executing phase ${phase.name} with ${creditsRequired} credits required`,
   );
+
+  const success = Math.random() < 0.7;
+
+  await finalizePhase(phase.id, success);
+
+  return { success };
+}
+
+async function finalizePhase(phaseId: string, success: boolean) {
+  const finalStatus = success
+    ? ExecutionPhaseStatus.COMPLETED
+    : ExecutionPhaseStatus.FAILED;
+
+  await prisma.executionPhase.update({
+    where: {
+      id: phaseId,
+    },
+    data: {
+      status: finalStatus,
+      completedAt: new Date(),
+    },
+  });
 }
