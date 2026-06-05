@@ -8,6 +8,8 @@ import {
 import { ExecutionPhase } from "@prisma/client";
 import { AppNode } from "@/types/appNode";
 import { TaskRegistry } from "./task/registry";
+import { TaskType } from "@/types/task";
+import { ExecutorRegistry } from "./executor/registry";
 
 export async function ExecuteWorkflow(executionId: string) {
   const execution = await prisma.workflowExecution.findUnique({
@@ -142,7 +144,7 @@ async function executeWorkflowPhase(phase: ExecutionPhase) {
     `Executing phase ${phase.name} with ${creditsRequired} credits required`,
   );
 
-  const success = Math.random() < 0.7;
+  const success = await executePhase(phase, node);
 
   await finalizePhase(phase.id, success);
 
@@ -163,4 +165,16 @@ async function finalizePhase(phaseId: string, success: boolean) {
       completedAt: new Date(),
     },
   });
+}
+
+async function executePhase(
+  phase: ExecutionPhase,
+  node: AppNode,
+): Promise<boolean> {
+  const runFn = ExecutorRegistry[node.data.type];
+  if (!runFn) {
+    return false;
+  }
+
+  return await runFn();
 }
