@@ -1,8 +1,8 @@
 import puppeteer from "puppeteer";
-import { Environment } from "@/types/executor";
+import { ExecutionEnvironment } from "@/types/executor";
 
 export async function LaunchBrowserExecutor(
-  environment: Environment,
+  environment: ExecutionEnvironment,
 ): Promise<boolean> {
   try {
     const browser = await puppeteer.launch({
