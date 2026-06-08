@@ -1,18 +1,14 @@
-import puppeteer from "puppeteer";
 import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
 import { ExecutionEnvironment } from "@/types/executor";
 
-export async function LaunchBrowserExecutor(
+export async function PageToHtmlExecutor(
   environment: ExecutionEnvironment<typeof LaunchBrowserTask>,
 ): Promise<boolean> {
   try {
-    const browser = await puppeteer.launch({
-      headless: false,
-    });
-    await browser.close();
+    const websiteUrl = environment.getInput("Website Url");
+    console.log(`Website URL: ${websiteUrl}`);
     return true;
   } catch (error) {
-    console.error(error);
     return false;
   }
 }
