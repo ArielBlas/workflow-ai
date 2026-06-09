@@ -1,8 +1,8 @@
-import { LaunchBrowserTask } from "@/lib/workflow/task/LaunchBrowser";
 import { ExecutionEnvironment } from "@/types/executor";
+import { PageToHtmlTask } from "../task/PageToHtml";
 
 export async function PageToHtmlExecutor(
-  environment: ExecutionEnvironment<typeof LaunchBrowserTask>,
+  environment: ExecutionEnvironment<typeof PageToHtmlTask>,
 ): Promise<boolean> {
   try {
     const websiteUrl = environment.getInput("Website Url");
