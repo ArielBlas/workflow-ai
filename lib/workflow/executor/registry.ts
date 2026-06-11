@@ -4,7 +4,7 @@ import { PageToHtmlExecutor } from "./PageToHtmlExecutor";
 import { ExecutionEnvironment } from "@/types/executor";
 import { TaskType } from "@/types/task";
 
-type ExecutorFn<T extends WorkflowTask> = (
+type                  <T extends WorkflowTask> = (
   environment: ExecutionEnvironment<T>,
 ) => Promise<boolean>;
 
