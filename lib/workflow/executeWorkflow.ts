@@ -1,7 +1,7 @@
 import "server-only";
 import prisma from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { Browser } from "puppeteer";
+import { Browser, Page } from "puppeteer";
 import {
   ExecutionPhaseStatus,
   WorkflowExecutionStatus,
@@ -215,5 +215,8 @@ function createExecutionEnvironment(
 
     getBrowser: () => environment.browser,
     setBrowser: (browser: Browser) => (environment.browser = browser),
+
+    getPage: () => environment.page,
+    setPage: (page: Page) => (environment.page = page),
   };
 }
