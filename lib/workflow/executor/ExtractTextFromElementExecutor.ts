@@ -8,10 +8,12 @@ export async function ExtractTextFromElementExecutor(
   try {
     const selector = environment.getInput("Selector");
     if (!selector) {
+      console.error("Selector not defined");
       return false;
     }
     const html = environment.getInput("Html");
     if (!html) {
+      console.error("Html not defined");
       return false;
     }
 
@@ -20,6 +22,7 @@ export async function ExtractTextFromElementExecutor(
 
     if (!element) {
       console.log("Element not found");
+      return false;
     }
 
     const extractedText = $.text(element);
