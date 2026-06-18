@@ -8,7 +8,8 @@ export async function PageToHtmlExecutor(
     const html = environment.getPage()!.content();
     environment.setOutput("HTML", html);
     return true;
-  } catch (error) {
+  } catch (error: any) {
+    environment.log.error(error.message);
     return false;
   }
 }
