@@ -1,7 +1,10 @@
 import React, { ReactNode, useState } from "react";
 import { GetWorkflowExecutionWithPhases } from "@/actions/workflows/getWorkflowExecutionWithPhases";
 import { useQuery } from "@tanstack/react-query";
-import { WorkflowExecutionStatus } from "@/types/workflow";
+import {
+  ExecutionPhaseStatus,
+  WorkflowExecutionStatus,
+} from "@/types/workflow";
 import {
   CalendarIcon,
   CircleDashedIcon,
@@ -37,6 +40,7 @@ import {
 } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
 import { LogLevel } from "@/types/log";
+import PhaseStatusBadge from "./PhaseStatusBadge";
 
 type ExecutionData = Awaited<ReturnType<typeof GetWorkflowExecutionWithPhases>>;
 
@@ -128,7 +132,7 @@ export default function ExecutionViewer({ initialData }: Props) {
                 <Badge variant="outline">{index + 1}</Badge>
                 <p className="font-semibold">{phase.name}</p>
               </div>
-              <p className="text-xs text-muted-foreground">{phase.status}</p>
+              <PhaseStatusBadge status={phase.status as ExecutionPhaseStatus} />
             </Button>
           ))}
         </div>
