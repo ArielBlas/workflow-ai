@@ -13,6 +13,7 @@ import Link from "next/link";
 import { Button, buttonVariants } from "./ui/button";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import UserAvailableCreditsBadge from "./UserAvailableCreditsBadge";
 
 type Props = {};
 
@@ -55,7 +56,9 @@ const DesktopSidebar = (props: Props) => {
       >
         <Logo />
       </div>
-      <div className="p-2">TODO CREDITS</div>
+      <div className="p-2">
+        <UserAvailableCreditsBadge />
+      </div>
       <div className="flex flex-col p-2">
         {routes.map((route) => (
           <Link
