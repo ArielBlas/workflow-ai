@@ -29,7 +29,7 @@ const UserAvailableCreditsBadge = (props: Props) => {
           {!query.isLoading && query.data && (
             <ReactCountUpWrapper value={query.data} />
           )}
-          {!query.isLoading && !query.data && "-"}
+          {!query.isLoading && query.data === undefined && "-"}
         </span>
       </CoinsIcon>
     </Link>
