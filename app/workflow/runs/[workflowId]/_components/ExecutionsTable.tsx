@@ -11,6 +11,8 @@ import {
 import { DatesToDurationString } from "@/lib/helper/dates";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
+import ExecutionStatusIndicator from "./ExecutionStatusIndicator";
+import { WorkflowExecutionStatus } from "@/types/workflow";
 
 type InitialDataType = Awaited<ReturnType<typeof GetWorkflowExecutions>>;
 
@@ -56,9 +58,18 @@ const ExecutionsTable = ({ workflowId, initialData }: Props) => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <div>
-                        <div>{execution.status}</div>
-                        <div>{duration}</div>
+                      <div className="flex flex-col">
+                        <div className="flex gap-2 items-center">
+                          <ExecutionStatusIndicator
+                            status={execution.status as WorkflowExecutionStatus}
+                          />
+                          <span className="font-semibold capitalize">
+                            {execution.status}
+                          </span>
+                        </div>
+                        <div className="text-muted-foreground text-xs mx-5">
+                          {duration}
+                        </div>
                       </div>
                     </TableCell>
                   </TableRow>
