@@ -13,6 +13,9 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import ExecutionStatusIndicator from "./ExecutionStatusIndicator";
 import { WorkflowExecutionStatus } from "@/types/workflow";
+import { CoinsIcon } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { useRouter } from "next/navigation";
 
 type InitialDataType = Awaited<ReturnType<typeof GetWorkflowExecutions>>;
 
@@ -22,12 +25,14 @@ type Props = {
 };
 
 const ExecutionsTable = ({ workflowId, initialData }: Props) => {
+  const router = useRouter();
   const query = useQuery({
     queryKey: ["executions", workflowId],
     initialData,
     queryFn: () => GetWorkflowExecutions(workflowId),
     refetchInterval: 5000,
   });
+
   return (
     <div className="border rounded-lg shadow-md overflow-auto">
       <Table className="h-full">
@@ -46,8 +51,22 @@ const ExecutionsTable = ({ workflowId, initialData }: Props) => {
                   execution.startedAt,
                 );
 
+                const formattedStartedAt =
+                  execution.startedAt &&
+                  formatDistanceToNow(execution.startedAt, {
+                    addSuffix: true,
+                  });
+
                 return (
-                  <TableRow key={execution.id}>
+                  <TableRow
+                    key={execution.id}
+                    className="cursor-pointer"
+                    onClick={() => {
+                      router.push(
+                        `/workflow/runs/${execution.workflowId}/${execution.id}`,
+                      );
+                    }}
+                  >
                     <TableCell>
                       <div className="flex flex-col">
                         <span className="font-semibold">{execution.id}</span>
@@ -71,6 +90,22 @@ const ExecutionsTable = ({ workflowId, initialData }: Props) => {
                           {duration}
                         </div>
                       </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-col">
+                        <div className="flex gap-2 items-center">
+                          <CoinsIcon size={16} className="text-primary" />
+                          <span className="font-semibold capitalize">
+                            {execution.creditsConsumed}
+                          </span>
+                        </div>
+                        <div className="text-muted-foreground text-xs mx-5">
+                          Credits
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right text-muted-foreground">
+                      {formattedStartedAt}
                     </TableCell>
                   </TableRow>
                 );
