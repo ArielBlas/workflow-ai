@@ -2,6 +2,7 @@ import React, { Suspense } from "react";
 import Topbar from "@/app/workflow/_components/topbar/Topbar";
 import { GetWorkflowExecutions } from "@/actions/workflows/getWorkflowExecutions";
 import { InboxIcon, Loader2Icon } from "lucide-react";
+import ExecutionsTable from "./_components/ExecutionsTable";
 
 type Props = {
   params: { workflowId: string };
@@ -53,7 +54,11 @@ async function ExecutionsTableWrapper({ workflowId }: { workflowId: string }) {
     </div>;
   }
 
-  return <pre>{}</pre>;
+  return (
+    <div className="container py-6 w-full">
+      <ExecutionsTable workflowId={workflowId} initialData={executions} />;
+    </div>
+  );
 }
 
 export default ExecutionPage;
