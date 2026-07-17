@@ -13,6 +13,7 @@ type Props = {
   subtitle?: string;
   workflowId: string;
   hideButtons?: boolean;
+  isPublished?: boolean;
 };
 
 const Topbar = ({
@@ -20,6 +21,7 @@ const Topbar = ({
   subtitle,
   workflowId,
   hideButtons = false,
+  isPublished = false,
 }: Props) => {
   const router = useRouter();
   return (
@@ -45,8 +47,12 @@ const Topbar = ({
         {hideButtons === false && (
           <>
             <ExecuteBtn workflowId={workflowId} />
-            <SaveBtn workflowId={workflowId} />
-            <PublishBtn workflowId={workflowId} />
+            {!isPublished && (
+              <>
+                <SaveBtn workflowId={workflowId} />
+                <PublishBtn workflowId={workflowId} />
+              </>
+            )}
           </>
         )}
       </div>

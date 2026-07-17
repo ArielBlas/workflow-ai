@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 
 import { toast } from "sonner";
 import { useReactFlow } from "@xyflow/react";
+import { PublishWorkflow } from "@/actions/workflows/publishWorkflow";
 
 type Props = {
   workflowId: string;
@@ -16,12 +17,12 @@ function PublishBtn({ workflowId }: Props) {
   const { toObject } = useReactFlow();
 
   const mutation = useMutation({
-    mutationFn: () => {},
+    mutationFn: PublishWorkflow,
     onSuccess: () => {
-      toast.success("Execution started", { id: "flow-execution" });
+      toast.success("Workflow published", { id: workflowId });
     },
     onError: () => {
-      toast.error("Something went wrong", { id: "flow-execution" });
+      toast.error("Something went wrong", { id: workflowId });
     },
   });
   return (
@@ -33,8 +34,9 @@ function PublishBtn({ workflowId }: Props) {
         const plan = generate();
         if (!plan) return;
 
+        toast.loading("Publishing workflow...", { id: workflowId });
         mutation.mutate({
-          workflowId,
+          id: workflowId,
           flowDefinition: JSON.stringify(toObject()),
         });
       }}
