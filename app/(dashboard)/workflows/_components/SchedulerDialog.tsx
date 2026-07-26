@@ -19,6 +19,7 @@ import { useMutation } from "@tanstack/react-query";
 import { UpdateWorkflowCron } from "@/actions/workflows/updateWorkflowCron";
 import { toast } from "sonner";
 import cronstrue from "cronstrue";
+import { RemoveWorkflowSchedule } from "@/actions/workflows/removeWorkflowSchedule";
 
 type Props = {
   cron: string | null;
@@ -34,6 +35,16 @@ const SchedulerDialog = (props: Props) => {
     mutationFn: UpdateWorkflowCron,
     onSuccess: () => {
       toast.success("Schedule updated successfully", { id: "cron" });
+    },
+    onError: () => {
+      toast.error("Something went wrong", { id: "cron" });
+    },
+  });
+
+  const removeScheduleMutation = useMutation({
+    mutationFn: RemoveWorkflowSchedule,
+    onSuccess: () => {
+      toast.success("Schedule updated successfully", { id: "cron " });
     },
     onError: () => {
       toast.error("Something went wrong", { id: "cron" });
@@ -111,7 +122,7 @@ const SchedulerDialog = (props: Props) => {
           <DialogClose asChild>
             <Button
               className="w-full"
-              disabled={mutation.isPending}
+              disabled={mutation.isPending || !validCron}
               onClick={() => {
                 toast.loading("Saving...", { id: cron });
                 mutation.mutate({
