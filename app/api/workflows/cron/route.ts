@@ -1,3 +1,4 @@
+import { getAppUrl } from "@/lib/helper/appUrl";
 import prisma from "@/lib/prisma";
 import { WorkflowStatus } from "@/types/workflow";
 
@@ -18,5 +19,7 @@ export async function GET(req: Request) {
 }
 
 function triggerWorkflow(workflowId: string) {
-  const triggerApiUrl = `/api/workflows/execute?workflowId=${workflowId}`;
+  const triggerApiUrl = getAppUrl(
+    `/api/workflows/execute?workflowId=${workflowId}`,
+  );
 }
