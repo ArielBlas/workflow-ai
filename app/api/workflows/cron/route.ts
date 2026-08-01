@@ -16,6 +16,8 @@ export async function GET(req: Request) {
   for (const workflow of workflows) {
     triggerWorkflow(workflow.id);
   }
+
+  return Response.json({ workflowsToRun: workflows.length }, { status: 200 });
 }
 
 function triggerWorkflow(workflowId: string) {
