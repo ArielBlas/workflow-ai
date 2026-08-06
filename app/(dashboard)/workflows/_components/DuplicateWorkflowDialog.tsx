@@ -8,8 +8,8 @@ import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import {
-  createWorkflowSchema,
-  createWorkflowSchemaType,
+  duplicateWorkflowSchema,
+  duplicateWorkflowSchemaType,
 } from "@/schema/workflow";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -35,7 +35,7 @@ const DuplicateWorkflowDialog = ({ triggerText }: Props) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<duplicateWorkflowSchemaType>({
-    resolver: zodResolver(duplicatecreateWorkflowSchema),
+    resolver: zodResolver(duplicateWorkflowSchema),
     defaultValues: {},
   });
 
@@ -69,11 +69,7 @@ const DuplicateWorkflowDialog = ({ triggerText }: Props) => {
         <Button>{triggerText ?? "Duplicate Workflow"}</Button>
       </DialogTrigger>
       <DialogContent className="px-0">
-        <CustomDialogHeader
-          icon={Layers2Icon}
-          title="Create Workflow"
-          subTitle="Start building your workflow"
-        />
+        <CustomDialogHeader icon={Layers2Icon} title="Duplicate Workflow" />
         <div className="p-6">
           <Form {...form}>
             <form
