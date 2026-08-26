@@ -1,8 +1,9 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ShieldIcon } from "lucide-react";
+import { ShieldIcon, ShieldOffIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import { GetCredentialsForUser } from "@/actions/credentials/getCredentialsForUser";
+import { Card } from "@/components/ui/card";
 
 type Props = {};
 
@@ -36,7 +37,28 @@ const CredentialsPage = (props: Props) => {
 
 async function UserCredentials() {
   const credentials = await GetCredentialsForUser();
-  return <div>User creds</div>;
+
+  if (!credentials) {
+    return <div>Something went wrong</div>;
+  }
+
+  if (credentials.length === 0) {
+    return (
+      <Card className="w-full p-4">
+        <div className="flex flex-col gap-4 items-center justify-center">
+          <div className="rounded-full bg-accent w-20 h-20 flex items-center justify-center">
+            <ShieldOffIcon size={40} className="stroke-primary" />
+          </div>
+          <div className="flex flex-col gap-1 text-center">
+            <p className="text-bold">No credentials created yet</p>
+            <p className="text-sm text-muted-foreground">
+              Click the button below to create your first credential
+            </p>
+          </div>
+        </div>
+      </Card>
+    );
+  }
 }
 
 export default CredentialsPage;
