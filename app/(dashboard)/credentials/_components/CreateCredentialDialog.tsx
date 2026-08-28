@@ -26,6 +26,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { useMutation } from "@tanstack/react-query";
 import { CreateWorkflow } from "@/actions/workflows/createWorkflow";
 import { toast } from "sonner";
+import {
+  createCredentialSchema,
+  createCredentialSchemaType,
+} from "@/schema/credential";
 
 type Props = {
   triggerText?: string;
@@ -35,7 +39,7 @@ const CreateCredentialDialog = ({ triggerText }: Props) => {
   const [open, setOpen] = useState(false);
 
   const form = useForm<createCredentialSchemaType>({
-    resolver: zodResolver(createCredentialSchem),
+    resolver: zodResolver(createCredentialSchema),
     defaultValues: {},
   });
 
