@@ -3,7 +3,7 @@
 import React, { useCallback, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import { Layers2Icon, Loader2 } from "lucide-react";
+import { Layers2Icon, Loader2, ShieldEllipsis } from "lucide-react";
 import CustomDialogHeader from "@/components/CustomDialogHeader";
 import { useForm } from "react-hook-form";
 import z from "zod";
@@ -44,18 +44,18 @@ const CreateCredentialDialog = ({ triggerText }: Props) => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: CreateWorkflow,
+    mutationFn: CreateCredential,
     onSuccess: () => {
-      toast.success("Workflow created", { id: "create-workflow" });
+      toast.success("Credential created", { id: "create-credential" });
     },
     onError: () => {
-      toast.error("Failed to create workflow", { id: "create-workflow" });
+      toast.error("Failed to create credential", { id: "create-credential" });
     },
   });
 
   const onSubmit = useCallback(
-    (values: createWorkflowSchemaType) => {
-      toast.loading("Creating workflow...", { id: "create-workflow" });
+    (values: createCredentialSchemaType) => {
+      toast.loading("Creating credential...", { id: "create-credential" });
       mutate(values);
     },
     [mutate],
@@ -70,12 +70,12 @@ const CreateCredentialDialog = ({ triggerText }: Props) => {
       }}
     >
       <DialogTrigger>
-        <Button>{triggerText ?? "Create Workflow"}</Button>
+        <Button>{triggerText ?? "Create"}</Button>
       </DialogTrigger>
       <DialogContent className="px-0">
         <CustomDialogHeader
-          icon={Layers2Icon}
-          title="Create Workflow"
+          icon={ShieldEllipsis}
+          title="Create Credential"
           subTitle="Start building your workflow"
         />
         <div className="p-6">
