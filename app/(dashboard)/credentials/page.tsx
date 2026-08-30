@@ -4,6 +4,7 @@ import { ShieldIcon, ShieldOffIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import { GetCredentialsForUser } from "@/actions/credentials/getCredentialsForUser";
 import { Card } from "@/components/ui/card";
+import CreateCredentialDialog from "./_components/CreateCredentialDialog";
 
 type Props = {};
 
@@ -55,6 +56,8 @@ async function UserCredentials() {
               Click the button below to create your first credential
             </p>
           </div>
+
+          <CreateCredentialDialog triggerText="Create your first credential" />
         </div>
       </Card>
     );

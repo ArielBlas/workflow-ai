@@ -30,6 +30,7 @@ import {
   createCredentialSchema,
   createCredentialSchemaType,
 } from "@/schema/credential";
+import { CreateCredential } from "@/actions/credentials/createCredential";
 
 type Props = {
   triggerText?: string;
@@ -97,7 +98,9 @@ const CreateCredentialDialog = ({ triggerText }: Props) => {
                       <Input {...field} />
                     </FormControl>
                     <FormDescription>
-                      Choose a descriptive and unique name
+                      Enter a unique an descriptive name for the credential
+                      <br />
+                      This name will be user to identify the credential
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -105,22 +108,19 @@ const CreateCredentialDialog = ({ triggerText }: Props) => {
               />
               <FormField
                 control={form.control}
-                name="description"
+                name="value"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex gap-1 items-center">
-                      Description
-                      <p className="text-xs text-muted-foreground">
-                        (optional)
-                      </p>
+                      Value
+                      <p className="text-xs text-primary">(required)</p>
                     </FormLabel>
                     <FormControl>
                       <Textarea className="resize-none" {...field} />
                     </FormControl>
                     <FormDescription>
-                      Provide a brief description of what your workflow does.
-                      <br /> This is optinal but can help you remember the
-                      workflow&pos;s purpose
+                      Enter the value associated with this credential
+                      <br /> This value will be securely encrypted and stored
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
