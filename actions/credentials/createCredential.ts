@@ -1,5 +1,6 @@
 "use server";
 
+import { symmetricEncrypt } from "@/lib/encryption";
 import prisma from "@/lib/prisma";
 import {
   createCredentialSchema,
