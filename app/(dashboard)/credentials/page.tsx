@@ -1,10 +1,11 @@
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ShieldIcon, ShieldOffIcon } from "lucide-react";
+import { LockKeyholeIcon, ShieldIcon, ShieldOffIcon } from "lucide-react";
 import React, { Suspense } from "react";
 import { GetCredentialsForUser } from "@/actions/credentials/getCredentialsForUser";
 import { Card } from "@/components/ui/card";
 import CreateCredentialDialog from "./_components/CreateCredentialDialog";
+import { formatDistanceToNow } from "date-fns";
 
 type Props = {};
 
@@ -62,6 +63,29 @@ async function UserCredentials() {
       </Card>
     );
   }
+
+  return (
+    <div className="flex gap-2 flex-wrap">
+      {credentials.map((credential) => {
+        const createdAt = formatDistanceToNow(credential.createdAt, {
+          addSuffix: true,
+        });
+
+        return (
+          <Card key={credential.id}>
+            <div>
+              <div>
+                <LockKeyholeIcon size={18} className="stroke-primary" />
+              </div>
+              <div>
+                <p>{credential.name}</p>
+              </div>
+            </div>
+          </Card>
+        );
+      })}
+    </div>
+  );
 }
 
 export default CredentialsPage;
