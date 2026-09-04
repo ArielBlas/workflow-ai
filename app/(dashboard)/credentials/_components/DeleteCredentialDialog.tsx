@@ -1,36 +1,22 @@
 "use client";
 
 import React, { useCallback, useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Layers2Icon, Loader2, ShieldEllipsis } from "lucide-react";
-import CustomDialogHeader from "@/components/CustomDialogHeader";
-import { useForm } from "react-hook-form";
-import z from "zod";
-import {
-  createWorkflowSchema,
-  createWorkflowSchemaType,
-} from "@/schema/workflow";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { useMutation } from "@tanstack/react-query";
-import { CreateWorkflow } from "@/actions/workflows/createWorkflow";
 import { toast } from "sonner";
 import {
-  createCredentialSchema,
-  createCredentialSchemaType,
-} from "@/schema/credential";
-import { CreateCredential } from "@/actions/credentials/createCredential";
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
+import { XIcon } from "lucide-react";
 
 type Props = {
   name: string;
@@ -38,102 +24,62 @@ type Props = {
 
 const DeleteCredentialDialog = ({ name }: Props) => {
   const [open, setOpen] = useState(false);
+  const [confirmText, setConfirmText] = useState("");
 
-  const form = useForm<createCredentialSchemaType>({
-    resolver: zodResolver(createCredentialSchema),
-    defaultValues: {},
-  });
-
-  const { mutate, isPending } = useMutation({
-    mutationFn: CreateCredential,
+  const deleteMutation = useMutation({
+    mutationFn: DeleteCredential,
     onSuccess: () => {
-      toast.success("Credential created", { id: "create-credential" });
+      toast.success("Credential deleted sucessfully", { id: name });
     },
     onError: () => {
-      toast.error("Failed to create credential", { id: "create-credential" });
+      toast.error("Something went wrong", { id: name });
     },
   });
 
-  const onSubmit = useCallback(
-    (values: createCredentialSchemaType) => {
-      toast.loading("Creating credential...", { id: "create-credential" });
-      mutate(values);
-    },
-    [mutate],
-  );
-
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(open) => {
-        form.reset();
-        setOpen(open);
-      }}
-    >
-      <DialogTrigger>
-        <Button>{triggerText ?? "Create"}</Button>
-      </DialogTrigger>
-      <DialogContent className="px-0">
-        <CustomDialogHeader
-          icon={ShieldEllipsis}
-          title="Create Credential"
-          subTitle="Start building your workflow"
-        />
-        <div className="p-6">
-          <Form {...form}>
-            <form
-              className="space-y-8 w-full"
-              onSubmit={form.handleSubmit(onSubmit)}
-            >
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex gap-1 items-center">
-                      Name
-                      <p className="text-xs text-primary">(required)</p>
-                    </FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Enter a unique an descriptive name for the credential
-                      <br />
-                      This name will be user to identify the credential
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+    <AlertDialog open={open} onOpenChange={setOpen}>
+      <AlertDialogTrigger asChild>
+        <Button variant={"destructive"} size={"icon"}>
+          <XIcon size={18} />
+        </Button>
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          <AlertDialogDescription>
+            If you delete this credential, you will not be able to recover it.
+            <div className="flex flex-col py-4 gap-2">
+              <p>
+                If you are sure, enter <b>{name} to confirm:</b>
+              </p>
+              <Input
+                value={confirmText}
+                onChange={(e) => setConfirmText(e.target.value)}
               />
-              <FormField
-                control={form.control}
-                name="value"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="flex gap-1 items-center">
-                      Value
-                      <p className="text-xs text-primary">(required)</p>
-                    </FormLabel>
-                    <FormControl>
-                      <Textarea className="resize-none" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Enter the value associated with this credential
-                      <br /> This value will be securely encrypted and stored
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" className="w-full" disabled={isPending}>
-                {!isPending ? "Proceed" : <Loader2 className="animate-spin" />}
-              </Button>
-            </form>
-          </Form>
-        </div>
-      </DialogContent>
-    </Dialog>
+            </div>
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel
+            onClick={() => {
+              setConfirmText("");
+            }}
+          >
+            Cancel
+          </AlertDialogCancel>
+          <AlertDialogAction
+            disabled={confirmText !== name || deleteMutation.isPending}
+            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={() => {
+              toast.loading("Deleting credential...", { id: name });
+              deleteMutation.mutate(name);
+            }}
+          >
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
   );
 };
 
