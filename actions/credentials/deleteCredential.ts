@@ -9,4 +9,15 @@ export async function DeleteCredential(name: string) {
   if (!userId) {
     throw new Error("unauthenticated");
   }
+
+  await prisma.credential.delete({
+    where: {
+      userId_name: {
+        userId,
+        name,
+      },
+    },
+  });
+
+  revalidatePath("/credential");
 }
