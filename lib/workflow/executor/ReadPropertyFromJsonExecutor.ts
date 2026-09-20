@@ -1,5 +1,4 @@
 import { ExecutionEnvironment } from "@/types/executor";
-import { ClickElementTask } from "../task/ClickElement";
 import { ReadPropertyFromJsonTask } from "../task/ReadPropertyFromJson";
 
 export async function ReadPropertyFromJsonExecutor(
