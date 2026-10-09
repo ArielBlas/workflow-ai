@@ -1,3 +1,4 @@
+import { GetPeriods } from "@/actions/analytics/getPeriods";
 import React from "react";
 
 type Props = {};
