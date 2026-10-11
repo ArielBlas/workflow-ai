@@ -9,14 +9,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/router";
 
 type Props = {
   periods: Period[];
 };
 
+const MONTH_NAMES = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
 function PeriodSelector({ periods }: Props) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   return (
-    <Select>
+    <Select
+      onValueChange={(value) => {
+        const [month, year] = value.split("-");
+        const params = new URLSearchParams(searchParams);
+        params.set("month", month);
+        params.set("year", year);
+        router.push(`?${params.toString()}`);
+      }}
+    >
       <SelectTrigger className="w-[180px]">
         <SelectValue />
       </SelectTrigger>
@@ -25,7 +52,7 @@ function PeriodSelector({ periods }: Props) {
           <SelectItem
             key={index}
             value={`${period.month}-${period.year}`}
-          >{`${period.month}-${period.year}`}</SelectItem>
+          >{`${MONTH_NAMES[period.month]} ${period.year}`}</SelectItem>
         ))}
       </SelectContent>
     </Select>
