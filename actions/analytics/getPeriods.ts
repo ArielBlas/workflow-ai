@@ -29,4 +29,6 @@ export async function GetPeriods() {
       periods.push({ year, month });
     }
   }
+
+  return periods;
 }

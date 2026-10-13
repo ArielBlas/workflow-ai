@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 
 type Props = {
   periods: Period[];
+  selectedPeriod: Period;
 };
 
 const MONTH_NAMES = [
@@ -31,11 +32,12 @@ const MONTH_NAMES = [
   "December",
 ];
 
-function PeriodSelector({ periods }: Props) {
+function PeriodSelector({ periods, selectedPeriod }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
   return (
     <Select
+      value={`${selectedPeriod.month}-${selectedPeriod.year}`}
       onValueChange={(value) => {
         const [month, year] = value.split("-");
         const params = new URLSearchParams(searchParams);
