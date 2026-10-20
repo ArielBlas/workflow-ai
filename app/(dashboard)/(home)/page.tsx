@@ -3,6 +3,7 @@ import React, { Suspense } from "react";
 import PeriodSelector from "./_components/PeriodSelector";
 import { Period } from "@/types/analytics";
 import { Skeleton } from "@/components/ui/skeleton";
+import { GetStatsCardsValues } from "@/actions/analytics/getStatsCardsValues";
 
 type Props = {
   searchParams: {
@@ -43,7 +44,7 @@ async function PeriodSelectorWrapper({
 
 async function StatsCards({ selectedPeriod }: { selectedPeriod: Period }) {
   const data = await GetStatsCardsValues(selectedPeriod);
-  return <pre>{JSON.stringify(data, null, 4)}</pre>;
+  return <div></div>;
 }
 
 export default HomePage;
