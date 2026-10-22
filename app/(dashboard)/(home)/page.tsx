@@ -4,6 +4,8 @@ import PeriodSelector from "./_components/PeriodSelector";
 import { Period } from "@/types/analytics";
 import { Skeleton } from "@/components/ui/skeleton";
 import { GetStatsCardsValues } from "@/actions/analytics/getStatsCardsValues";
+import StatsCard from "./_components/StatsCard";
+import { CirclePlayIcon, CoinsIcon, WaypointsIcon } from "lucide-react";
 
 type Props = {
   searchParams: {
@@ -44,7 +46,25 @@ async function PeriodSelectorWrapper({
 
 async function StatsCards({ selectedPeriod }: { selectedPeriod: Period }) {
   const data = await GetStatsCardsValues(selectedPeriod);
-  return <div></div>;
+  return (
+    <div className="grid gap-3 lg:gap-8 lg:grid-cols-3 min-h-[120px]">
+      <StatsCard
+        title="Workflow executions"
+        value={data.workflowExecution}
+        icon={CirclePlayIcon}
+      />
+      <StatsCard
+        title="Phase executions"
+        value={data.phaseExeutions}
+        icon={WaypointsIcon}
+      />
+      <StatsCard
+        title="Credits consumed"
+        value={data.creditsConsumed}
+        icon={CoinsIcon}
+      />
+    </div>
+  );
 }
 
 export default HomePage;

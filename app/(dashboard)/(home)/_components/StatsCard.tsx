@@ -11,7 +11,7 @@ type Props = {
 
 const StatsCard = (props: Props) => {
   return (
-    <Card className="relative overflow-hidden">
+    <Card className="relative overflow-hidden h-full">
       <CardHeader className="flex pb-2">
         <CardTitle>{props.title}</CardTitle>
         <props.icon
