@@ -28,7 +28,11 @@ const HomePage = ({ searchParams }: Props) => {
         <Suspense fallback={<Skeleton className="w-[180px] h-[40px]" />}>
           <PeriodSelectorWrapper selectedPeriod={period} />
         </Suspense>
-        <StatsCards selectedPeriod={period} />
+        <div className="h-full py-6 flex flex-col gap-4">
+          <Suspense fallback={<StatsCardSkeleton />}>
+            <StatsCards selectedPeriod={period} />
+          </Suspense>
+        </div>
       </div>
     </div>
   );
@@ -63,6 +67,16 @@ async function StatsCards({ selectedPeriod }: { selectedPeriod: Period }) {
         value={data.creditsConsumed}
         icon={CoinsIcon}
       />
+    </div>
+  );
+}
+
+function StatsCardSkeleton() {
+  return (
+    <div className="grid gap-3 lg:gap-8 lg:grid-cols-3">
+      {[1, 2, 3].map((i) => (
+        <Skeleton key={i} className="w-full min-h-[120px]" />
+      ))}
     </div>
   );
 }
