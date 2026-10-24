@@ -32,6 +32,9 @@ const HomePage = ({ searchParams }: Props) => {
           <Suspense fallback={<StatsCardSkeleton />}>
             <StatsCards selectedPeriod={period} />
           </Suspense>
+          <Suspense fallback={<Skeleton className="w-full h-[300px]" />}>
+            <StatsExecutionStatus selectPeriod={period} />
+          </Suspense>
         </div>
       </div>
     </div>
@@ -79,6 +82,14 @@ function StatsCardSkeleton() {
       ))}
     </div>
   );
+}
+
+async function StatsExecutionStatus({
+  selectedPeriod,
+}: {
+  selectedPeriod: Period;
+}) {
+  return <div></div>;
 }
 
 export default HomePage;
