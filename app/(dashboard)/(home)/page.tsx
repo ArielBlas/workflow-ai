@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { GetStatsCardsValues } from "@/actions/analytics/getStatsCardsValues";
 import StatsCard from "./_components/StatsCard";
 import { CirclePlayIcon, CoinsIcon, WaypointsIcon } from "lucide-react";
+import { GetWorkflowExecutionStats } from "@/actions/analytics/getWorkflowExecutionStats";
 
 type Props = {
   searchParams: {
@@ -89,6 +90,7 @@ async function StatsExecutionStatus({
 }: {
   selectedPeriod: Period;
 }) {
+  const data = await GetWorkflowExecutionStats(selectedPeriod);
   return <div></div>;
 }
 
