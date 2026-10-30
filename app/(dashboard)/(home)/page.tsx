@@ -36,6 +36,9 @@ const HomePage = ({ searchParams }: Props) => {
           <Suspense fallback={<Skeleton className="w-full h-[300px]" />}>
             <StatsExecutionStatus selectPeriod={period} />
           </Suspense>
+          <Suspense fallback={<Skeleton className="w-full h-[300px]" />}>
+            <CreditsUsageInPeriod selectPeriod={period} />
+          </Suspense>
         </div>
       </div>
     </div>
@@ -91,6 +94,14 @@ async function StatsExecutionStatus({
   selectedPeriod: Period;
 }) {
   const data = await GetWorkflowExecutionStats(selectedPeriod);
+  return <div></div>;
+}
+
+async function CreditsUsageInPeriod({
+  selectedPeriod,
+}: {
+  selectedPeriod: Period;
+}) {
   return <div></div>;
 }
 
