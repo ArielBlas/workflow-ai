@@ -7,6 +7,7 @@ import { GetStatsCardsValues } from "@/actions/analytics/getStatsCardsValues";
 import StatsCard from "./_components/StatsCard";
 import { CirclePlayIcon, CoinsIcon, WaypointsIcon } from "lucide-react";
 import { GetWorkflowExecutionStats } from "@/actions/analytics/getWorkflowExecutionStats";
+import { GetCreditUsageInPeriod } from "@/actions/analytics/getCreditUsageInperiod";
 
 type Props = {
   searchParams: {
@@ -102,6 +103,7 @@ async function CreditsUsageInPeriod({
 }: {
   selectedPeriod: Period;
 }) {
+  const data = await GetCreditUsageInPeriod(selectedPeriod);
   return <div></div>;
 }
 
