@@ -22,18 +22,18 @@ import { Area, CartesianGrid, XAxis } from "recharts";
 
 type ChartData = Awaited<ReturnType<typeof GetWorkflowExecutionStats>>;
 
-export default function ExecutionStatusChart({ data }: { data: ChartData }) {
-  const chartConfig = {
-    success: {
-      label: "Success",
-      color: "hsl(var(--chart-2))",
-    },
-    failed: {
-      label: "Failed",
-      color: "hsl(var(--chart-1))",
-    },
-  };
+const chartConfig = {
+  success: {
+    label: "Success",
+    color: "hsl(var(--chart-2))",
+  },
+  failed: {
+    label: "Failed",
+    color: "hsl(var(--chart-1))",
+  },
+};
 
+export default function ExecutionStatusChart({ data }: { data: ChartData }) {
   return (
     <Card>
       <CardHeader>
