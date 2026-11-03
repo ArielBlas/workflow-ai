@@ -1,9 +1,10 @@
+import { SetupUser } from "@/actions/billing/setupUser";
 import React from "react";
 
 type Props = {};
 
-const SetupPage = (props: Props) => {
-  return <div>page</div>;
+const SetupPage = async (props: Props) => {
+  return await SetupUser();
 };
 
 export default SetupPage;
