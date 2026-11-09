@@ -13,9 +13,17 @@ import { RadioGroup } from "@/components/ui/radio-group";
 import { RadioGroupItem } from "@radix-ui/react-radio-group";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import { useMutation } from "@tanstack/react-query";
+import { PurchaseCredits } from "@/actions/billing/purchaseCredits";
 
 const CreditsPurchase = () => {
   const [selectedPack, setSelectedPack] = useState(PackId.MEDIUM);
+
+  const mutation = useMutation({
+    mutationFn: PurchaseCredits,
+    onSuccess: () => {},
+    onError: () => {},
+  });
 
   return (
     <Card>
@@ -53,7 +61,13 @@ const CreditsPurchase = () => {
         </RadioGroup>
       </CardContent>
       <CardFooter>
-        <Button className="w-full">
+        <Button
+          className="w-full"
+          disabled={mutation.isPending}
+          onClick={() => {
+            mutation.mutate(selectedPack);
+          }}
+        >
           <CreditCard className="mr-2 h-5 w-5" /> Purcharse credits
         </Button>
       </CardFooter>
