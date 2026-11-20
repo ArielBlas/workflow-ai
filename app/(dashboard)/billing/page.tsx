@@ -5,6 +5,9 @@ import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import ReactCountUpWrapper from "@/components/ReactCountUpWrapper";
 import { CoinsIcon } from "lucide-react";
 import CreditsPurchase from "./_components/CreditsPurchase";
+import { Period } from "@/types/analytics";
+import { GetCreditUsageInPeriod } from "@/actions/analytics/getCreditUsageInperiod";
+import CreditUsageChart from "./_components/CreditUsageChart";
 
 export default function BillingPage() {
   return (
@@ -14,6 +17,9 @@ export default function BillingPage() {
         <BalanceCard />
       </Suspense>
       <CreditsPurchase />
+      <Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+        <CreditUsageCard />
+      </Suspense>
     </div>
   );
 }
@@ -41,5 +47,20 @@ async function BalanceCard() {
         When your credit balance reaches zero, your workflow will stop working
       </CardFooter>
     </Card>
+  );
+}
+
+async function CreditUsageCard() {
+  const period: Period = {
+    month: new Date().getMonth(),
+    year: new Date().getFullYear(),
+  };
+  const data = await GetCreditUsageInPeriod(period);
+  return (
+    <CreditUsageChart
+      data={data}
+      title="Credits consumed"
+      description="Daily credit consumed in the current month"
+    />
   );
 }
