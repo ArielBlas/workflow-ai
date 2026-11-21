@@ -20,6 +20,9 @@ export default function BillingPage() {
       <Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
         <CreditUsageCard />
       </Suspense>
+      <Suspense fallback={<Skeleton className="h-[300px] w-full" />}>
+        <TransactionHistoryCard />
+      </Suspense>
     </div>
   );
 }
@@ -63,4 +66,9 @@ async function CreditUsageCard() {
       description="Daily credit consumed in the current month"
     />
   );
+}
+
+async function TransactionHistoryCard() {
+  const purchases = await GetUserPurchaseHistory();
+  return <pre>{JSON.stringify(purchases, null, 4)}</pre>;
 }
