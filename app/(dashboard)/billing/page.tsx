@@ -8,6 +8,7 @@ import CreditsPurchase from "./_components/CreditsPurchase";
 import { Period } from "@/types/analytics";
 import { GetCreditUsageInPeriod } from "@/actions/analytics/getCreditUsageInperiod";
 import CreditUsageChart from "./_components/CreditUsageChart";
+import { GetUserPurchaseHistory } from "@/actions/billing/getUserPurchaseHistory";
 
 export default function BillingPage() {
   return (
