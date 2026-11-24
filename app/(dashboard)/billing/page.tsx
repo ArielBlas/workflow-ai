@@ -76,6 +76,14 @@ async function CreditUsageCard() {
   );
 }
 
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
 async function TransactionHistoryCard() {
   const purchases = await GetUserPurchaseHistory();
   return (
@@ -94,7 +102,11 @@ async function TransactionHistoryCard() {
           <p className="text-muted-for">No transactions yet</p>
         )}
         {purchases.map((purchase) => (
-          <div key={purchase.id}></div>
+          <div key={purchase.id}>
+            <div>
+              <p className="font-medium">{formatDate(purchase.date)}</p>
+            </div>
+          </div>
         ))}
       </CardContent>
     </Card>
