@@ -76,14 +76,6 @@ async function CreditUsageCard() {
   );
 }
 
-function formatDate(date: Date) {
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date);
-}
-
 async function TransactionHistoryCard() {
   const purchases = await GetUserPurchaseHistory();
   return (
@@ -102,13 +94,36 @@ async function TransactionHistoryCard() {
           <p className="text-muted-for">No transactions yet</p>
         )}
         {purchases.map((purchase) => (
-          <div key={purchase.id}>
+          <div
+            key={purchase.id}
+            className="flex justify-between items-center py-3 border-b last:border-b-0"
+          >
             <div>
               <p className="font-medium">{formatDate(purchase.date)}</p>
+            </div>
+            <div className="text-right">
+              <p className="font-medium">
+                {formatAmount(purchase.amount, purchase.currency)}
+              </p>
             </div>
           </div>
         ))}
       </CardContent>
     </Card>
   );
+}
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
+function formatAmount(amount: number, currency: string) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency,
+  }).format(amount / 100);
 }
