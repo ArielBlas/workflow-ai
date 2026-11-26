@@ -16,6 +16,7 @@ import { Period } from "@/types/analytics";
 import { GetCreditUsageInPeriod } from "@/actions/analytics/getCreditUsageInperiod";
 import CreditUsageChart from "./_components/CreditUsageChart";
 import { GetUserPurchaseHistory } from "@/actions/billing/getUserPurchaseHistory";
+import InvoiceBtn from "./_components/InvoiceBtn";
 
 export default function BillingPage() {
   return (
@@ -105,6 +106,7 @@ async function TransactionHistoryCard() {
               <p className="font-medium">
                 {formatAmount(purchase.amount, purchase.currency)}
               </p>
+              <InvoiceBtn id={purchase.id} />
             </div>
           </div>
         ))}
