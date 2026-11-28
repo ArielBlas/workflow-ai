@@ -5,10 +5,15 @@ import { Button } from "@/components/ui/button";
 import { useMutation } from "@tanstack/react-query";
 import { Loader2Icon } from "lucide-react";
 import React from "react";
+import { toast } from "sonner";
 
 const InvoiceBtn = ({ id }: { id: string }) => {
   const mutation = useMutation({
     mutationFn: DownloadInvoice,
+    onSuccess: (data) => (window.location.href = data as string),
+    onError: () => {
+      toast.error("Something went wrong");
+    },
   });
 
   return (
